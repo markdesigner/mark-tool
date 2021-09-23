@@ -8,13 +8,13 @@
           type="text"
           class="copy__text copy__text--tip"
           v-model="item.tip"
-          placeholder="Item Name"
+          placeholder="給個標題"
         />
         <input
           class="copy__text copy__text--value"
           type="text"
           v-model="item.value"
-          placeholder="copy words"
+          placeholder="要複製的文字"
         />
         <button
           v-clipboard:copy="item.value"
