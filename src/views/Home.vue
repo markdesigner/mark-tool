@@ -79,17 +79,20 @@ export default {
 <style lang="scss" scoped>
 .copy {
   &__item {
-    height: 30px;
+    height: 50px;
   }
   &__icon {
     width: 10%;
   }
   &__text {
-    height: 30px;
-    border: none;
-    border-bottom: solid 1px #6ab797;
+    margin-top: 10px;
     margin-right: 10px;
+    border: none;
+    background-color: rgb(190, 237, 222);
     outline: none;
+    font-size: 18px;
+    color: #000;
+    padding: 10px;
     &--tip {
       width: 10%;
     }
@@ -98,7 +101,7 @@ export default {
     }
   }
   &__handleContainer{
-    margin-top: 15px;
+    margin-top: 30px;
   }
 }
 </style>
