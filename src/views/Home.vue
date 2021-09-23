@@ -1,6 +1,7 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
+    <img class="copy__icon" alt="Vue logo" src="@/assets/clipboard.svg" />
+
     <div class="copy__container">
       <div class="copy__item" v-for="(item, index) in copyList" :key="index">
         <input
@@ -71,6 +72,9 @@ export default {
 </script>
 <style lang="scss" scoped>
 .copy {
+  &__icon{
+    width:10%;
+  }
   &__text {
     width: 50%;
   }
