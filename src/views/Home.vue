@@ -5,7 +5,13 @@
     <div class="copy__container">
       <div class="copy__item" v-for="(item, index) in copyList" :key="index">
         <input
-          class="copy__text"
+          type="text"
+          class="copy__text copy__text--tip"
+          v-model="item.tip"
+          placeholder="Item Name"
+        />
+        <input
+          class="copy__text copy__text--value"
           type="text"
           v-model="item.value"
           placeholder="copy words"
@@ -20,9 +26,10 @@
         <button @click="handleDelete(index)">delete</button>
       </div>
     </div>
-
-    <button @click="handleAdd">add</button>
-    <button @click="handleSave">save</button>
+    <div class="copy__handleContainer">
+      <button @click="handleAdd">add</button>
+      <button @click="handleSave">save</button>
+    </div>
   </div>
 </template>
 
@@ -33,15 +40,14 @@ export default {
   name: "Home",
   data() {
     return {
-      copyList: [{ value: "" }],
+      copyList: [{ value: "", tip: "" }],
     };
   },
   methods: {
     handleAdd() {
-      this.copyList.push({ value: "" });
+      this.copyList.push({ value: "", tip: "" });
     },
-    copySuccess() {
-    },
+    copySuccess() {},
     copyError() {
       alert("copy Error");
     },
@@ -72,11 +78,27 @@ export default {
 </script>
 <style lang="scss" scoped>
 .copy {
-  &__icon{
-    width:10%;
+  &__item {
+    height: 30px;
+  }
+  &__icon {
+    width: 10%;
   }
   &__text {
-    width: 50%;
+    height: 30px;
+    border: none;
+    border-bottom: solid 1px #6ab797;
+    margin-right: 10px;
+    outline: none;
+    &--tip {
+      width: 10%;
+    }
+    &--value {
+      width: 50%;
+    }
+  }
+  &__handleContainer{
+    margin-top: 15px;
   }
 }
 </style>
