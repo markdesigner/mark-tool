@@ -1,34 +1,54 @@
 <template>
   <div class="home">
     <img class="copy__icon" alt="Vue logo" src="@/assets/clipboard.svg" />
-
     <div class="copy__container">
+      <div class="copy__form copy__item">
+        <input
+          type="text"
+          class="copy__text copy__text--tip"
+          v-model="copyForm.tip"
+          placeholder="給個標題"
+          @blur="handleSave"
+          @keyup.enter="addItem"
+        />
+        <input
+          class="copy__text copy__text--value"
+          type="text"
+          v-model="copyForm.value"
+          placeholder="要複製的文字"
+          @blur="handleSave"
+          @keyup.enter="addItem"
+        />
+        <div class="button__group">
+          <button @click="addItem">確認</button>
+        </div>
+      </div>
       <div class="copy__item" v-for="(item, index) in copyList" :key="index">
         <input
           type="text"
           class="copy__text copy__text--tip"
           v-model="item.tip"
           placeholder="給個標題"
+          @blur="handleSave"
         />
         <input
           class="copy__text copy__text--value"
           type="text"
           v-model="item.value"
           placeholder="要複製的文字"
+          @blur="handleSave"
         />
-        <button
-          v-clipboard:copy="item.value"
-          v-clipboard:success="copySuccess"
-          v-clipboard:error="copyError"
-        >
-          copy
-        </button>
-        <button @click="handleDelete(index)">delete</button>
+        <div class="button__group">
+          <button
+            v-clipboard:copy="item.value"
+            v-clipboard:success="copySuccess"
+            v-clipboard:error="copyError"
+          >
+            複製
+          </button>
+          <button @click="handleDelete(index)">刪除此列</button>
+        </div>
       </div>
-    </div>
-    <div class="copy__handleContainer">
-      <button @click="handleAdd">add</button>
-      <button @click="handleSave">save</button>
     </div>
   </div>
 </template>
@@ -40,7 +60,11 @@ export default {
   name: "Home",
   data() {
     return {
-      copyList: [{ value: "", tip: "" }],
+      copyList: [],
+      copyForm: {
+        value: "",
+        tip: "",
+      },
     };
   },
   methods: {
@@ -69,6 +93,14 @@ export default {
     handleDelete(index) {
       this.copyList.splice(index, 1);
     },
+    addItem() {
+      this.copyList.push(this.copyForm);
+      this.copyForm = {
+        value: "",
+        tip: "",
+      };
+      this.handleSave();
+    },
   },
   mounted() {
     this.handleRestore();
@@ -77,16 +109,38 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+button {
+  border: none;
+  width: 80px;
+  height: 40px;
+  border-radius: 12px;
+  margin: 4px;
+}
 .copy {
   &__item {
-    height: 50px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    .button__group {
+      flex-basis: 20%;
+      text-align: left;
+    }
   }
   &__icon {
     width: 10%;
   }
+  &__container {
+    margin: 10px auto 0px;
+    width: 80%;
+  }
+  &__form {
+    .copy__text {
+      background-color: #ffdda4;
+    }
+  }
   &__text {
-    margin-top: 10px;
     margin-right: 10px;
+    border-radius: 12px;
     border: none;
     background-color: rgb(190, 237, 222);
     outline: none;
@@ -94,13 +148,14 @@ export default {
     color: #000;
     padding: 10px;
     &--tip {
-      width: 10%;
+      // width: 10%;
+      flex-basis: 10%;
     }
     &--value {
-      width: 50%;
+      flex-basis: 70%;
     }
   }
-  &__handleContainer{
+  &__handleContainer {
     margin-top: 30px;
   }
 }
