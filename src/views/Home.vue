@@ -94,7 +94,7 @@ export default {
       this.handleSave();
     },
     addItem() {
-      this.copyList.push(this.copyForm);
+      this.copyList.unshift(this.copyForm);
       this.copyForm = {
         value: "",
         tip: "",
