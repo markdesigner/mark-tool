@@ -9,7 +9,6 @@
           v-model="copyForm.tip"
           placeholder="給個標題"
           @blur="handleSave"
-          @keyup.enter="addItem"
         />
         <input
           class="copy__text copy__text--value"
