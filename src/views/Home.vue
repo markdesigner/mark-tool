@@ -91,6 +91,7 @@ export default {
     },
     handleDelete(index) {
       this.copyList.splice(index, 1);
+      this.handleSave();
     },
     addItem() {
       this.copyList.push(this.copyForm);
