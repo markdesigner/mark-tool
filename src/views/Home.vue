@@ -20,40 +20,40 @@
           <button @click="addItem">確認</button>
         </div>
       </div>
-      <draggable
-        v-model="copyList"
-        group="people"
-        @start="drag = true"
-        @end="drag = false"
-        handle=".handle"
-      >
-        <div class="copy__item" v-for="(item, index) in copyList" :key="index">
-          <input
-            type="text"
-            class="copy__text copy__text--tip"
-            v-model="item.tip"
-            placeholder="給個標題"
-          />
-          <input
-            class="copy__text copy__text--value"
-            type="text"
-            v-model="item.value"
-            placeholder="要複製的文字"
-          />
-          <div class="button__group">
-            <button
-              v-clipboard:copy="item.value"
-              v-clipboard:success="copySuccess"
-              v-clipboard:error="copyError"
-            >
-              複製
-            </button>
-            <button @click="handleDelete(index)">刪除此列</button>
-            <button class="handle" @click="handleDelete(index)">
-              <img class="icon" src="@/assets/icon/menu.svg" />
-            </button>
+      <draggable v-model="copyList" handle=".handle" v-bind="dragOptions">
+        <transition-group type="transition" name="flip-list">
+          <div
+            class="copy__item"
+            v-for="(item, index) in copyList"
+            :key="item.value"
+          >
+            <input
+              type="text"
+              class="copy__text copy__text--tip"
+              v-model="item.tip"
+              placeholder="給個標題"
+            />
+            <input
+              class="copy__text copy__text--value"
+              type="text"
+              v-model="item.value"
+              placeholder="要複製的文字"
+            />
+            <div class="button__group">
+              <button
+                v-clipboard:copy="item.value"
+                v-clipboard:success="copySuccess"
+                v-clipboard:error="copyError"
+              >
+                複製
+              </button>
+              <button @click="handleDelete(index)">刪除此列</button>
+              <button class="handle" @click="handleDelete(index)">
+                <img class="icon" src="@/assets/icon/menu.svg" />
+              </button>
+            </div>
           </div>
-        </div>
+        </transition-group>
       </draggable>
     </div>
   </div>
@@ -78,6 +78,16 @@ export default {
       handler() {
         this.handleSave();
       },
+    },
+  },
+  computed: {
+    dragOptions() {
+      return {
+        animation: 10,
+        group: "description",
+        disabled: false,
+        ghostClass: "ghost",
+      };
     },
   },
   methods: {
@@ -182,5 +192,12 @@ button {
 }
 .icon {
   width: 20%;
+}
+.ghost {
+  opacity: 0.5;
+  background: #d2e5df;
+}
+.flip-list-move {
+  transition: transform 0.5s;
 }
 </style>
