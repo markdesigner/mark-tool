@@ -8,53 +8,60 @@
           class="copy__text copy__text--tip"
           v-model="copyForm.tip"
           placeholder="給個標題"
-          @blur="handleSave"
         />
         <input
           class="copy__text copy__text--value"
           type="text"
           v-model="copyForm.value"
           placeholder="要複製的文字"
-          @blur="handleSave"
           @keyup.enter="addItem"
         />
         <div class="button__group">
           <button @click="addItem">確認</button>
         </div>
       </div>
-      <div class="copy__item" v-for="(item, index) in copyList" :key="index">
-        <input
-          type="text"
-          class="copy__text copy__text--tip"
-          v-model="item.tip"
-          placeholder="給個標題"
-          @blur="handleSave"
-        />
-        <input
-          class="copy__text copy__text--value"
-          type="text"
-          v-model="item.value"
-          placeholder="要複製的文字"
-          @blur="handleSave"
-        />
-        <div class="button__group">
-          <button
-            v-clipboard:copy="item.value"
-            v-clipboard:success="copySuccess"
-            v-clipboard:error="copyError"
-          >
-            複製
-          </button>
-          <button @click="handleDelete(index)">刪除此列</button>
+      <draggable
+        v-model="copyList"
+        group="people"
+        @start="drag = true"
+        @end="drag = false"
+        handle=".handle"
+      >
+        <div class="copy__item" v-for="(item, index) in copyList" :key="index">
+          <input
+            type="text"
+            class="copy__text copy__text--tip"
+            v-model="item.tip"
+            placeholder="給個標題"
+          />
+          <input
+            class="copy__text copy__text--value"
+            type="text"
+            v-model="item.value"
+            placeholder="要複製的文字"
+          />
+          <div class="button__group">
+            <button
+              v-clipboard:copy="item.value"
+              v-clipboard:success="copySuccess"
+              v-clipboard:error="copyError"
+            >
+              複製
+            </button>
+            <button @click="handleDelete(index)">刪除此列</button>
+            <button class="handle" @click="handleDelete(index)">
+              <img class="icon" src="@/assets/icon/menu.svg" />
+            </button>
+          </div>
         </div>
-      </div>
+      </draggable>
     </div>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-
+import draggable from "vuedraggable";
 export default {
   name: "Home",
   data() {
@@ -65,6 +72,13 @@ export default {
         tip: "",
       },
     };
+  },
+  watch: {
+    copyList: {
+      handler() {
+        this.handleSave();
+      },
+    },
   },
   methods: {
     handleAdd() {
@@ -91,7 +105,6 @@ export default {
     },
     handleDelete(index) {
       this.copyList.splice(index, 1);
-      this.handleSave();
     },
     addItem() {
       this.copyList.unshift(this.copyForm);
@@ -99,13 +112,14 @@ export default {
         value: "",
         tip: "",
       };
-      this.handleSave();
     },
   },
   mounted() {
     this.handleRestore();
   },
-  components: {},
+  components: {
+    draggable,
+  },
 };
 </script>
 <style lang="scss" scoped>
@@ -115,6 +129,7 @@ button {
   height: 40px;
   border-radius: 12px;
   margin: 4px;
+  cursor: pointer;
 }
 .copy {
   &__item {
@@ -158,5 +173,14 @@ button {
   &__handleContainer {
     margin-top: 30px;
   }
+}
+.drag {
+  &__item {
+    background-color: #ffdda4;
+    margin-bottom: 20px;
+  }
+}
+.icon {
+  width: 20%;
 }
 </style>
