@@ -48,7 +48,7 @@
                 複製
               </button>
               <button @click="handleDelete(index)">刪除此列</button>
-              <button class="handle" @click="handleDelete(index)">
+              <button class="handle">
                 <img class="icon" src="@/assets/icon/menu.svg" />
               </button>
             </div>
@@ -133,6 +133,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap");
 button {
   border: none;
   width: 80px;
@@ -140,6 +141,11 @@ button {
   border-radius: 12px;
   margin: 4px;
   cursor: pointer;
+  background-color: #beedde;
+  font-size: 14px;
+  &:active {
+    background-color: #5c8e7e;
+  }
 }
 .copy {
   &__item {
