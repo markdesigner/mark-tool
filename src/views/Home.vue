@@ -9,58 +9,50 @@
           v-model="copyForm.tip"
           placeholder="給個標題"
         />
-        <input
+        <textarea
           class="copy__text copy__text--value"
           type="text"
           v-model="copyForm.value"
           placeholder="要複製的文字"
-          @keyup.enter="addItem"
         />
         <div class="button__group">
           <button @click="addItem">確認</button>
         </div>
       </div>
-      <draggable v-model="copyList" handle=".handle" v-bind="dragOptions">
-        <transition-group type="transition" name="flip-list">
-          <div
-            class="copy__item"
-            v-for="(item, index) in copyList"
-            :key="item.value"
-          >
-            <input
-              type="text"
-              class="copy__text copy__text--tip"
-              v-model="item.tip"
-              placeholder="給個標題"
-            />
-            <input
-              class="copy__text copy__text--value"
-              type="text"
-              v-model="item.value"
-              placeholder="要複製的文字"
-            />
-            <div class="button__group">
-              <button
-                v-clipboard:copy="item.value"
-                v-clipboard:success="copySuccess"
-                v-clipboard:error="copyError"
-              >
-                複製
-              </button>
-              <button @click="handleDelete(index)">刪除此列</button>
-              <button class="handle">
-                <img class="icon" src="@/assets/icon/menu.svg" />
-              </button>
-            </div>
+      <draggable v-model="copyList" v-bind="dragOptions">
+        <div class="copy__item" v-for="item in copyList" :key="item.timestamp">
+          <input
+            type="text"
+            class="copy__text copy__text--tip"
+            v-model="item.tip"
+            placeholder="給個標題"
+          />
+          <textarea
+            class="copy__text copy__text--value"
+            type="text"
+            v-model="item.value"
+            placeholder="要複製的文字"
+          ></textarea>
+          <div class="button__group">
+            <button
+              v-clipboard:copy="item.value"
+              v-clipboard:success="copySuccess"
+              v-clipboard:error="copyError"
+            >
+              複製
+            </button>
+            <button @click="handleDelete(index)">刪除此列</button>
+            <button class="handle">
+              <img class="icon" src="@/assets/icon/menu.svg" />
+            </button>
           </div>
-        </transition-group>
+        </div>
       </draggable>
     </div>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
 import draggable from "vuedraggable";
 export default {
   name: "Home",
@@ -78,6 +70,7 @@ export default {
       handler() {
         this.handleSave();
       },
+      deep: true,
     },
   },
   computed: {
@@ -117,7 +110,13 @@ export default {
       this.copyList.splice(index, 1);
     },
     addItem() {
-      this.copyList.unshift(this.copyForm);
+      let { value, tip } = this.copyForm
+      const saveItem = {
+        tip,
+        value,
+        timestamp: Date.parse(new Date()),
+      }
+      this.copyList.unshift(saveItem);
       this.copyForm = {
         value: "",
         tip: "",
@@ -178,8 +177,8 @@ button {
     font-size: 18px;
     color: #000;
     padding: 10px;
+    height: 50px;
     &--tip {
-      // width: 10%;
       flex-basis: 10%;
     }
     &--value {
