@@ -12,8 +12,11 @@
         <textarea
           class="copy__text copy__text--value"
           type="text"
+          id="value"
           v-model="copyForm.value"
           placeholder="要複製的文字"
+          @keydown.meta.75="handleCommand"
+          ref="copyTextInput"
         />
         <div class="button__group">
           <button @click="addItem">確認</button>
@@ -27,12 +30,12 @@
             v-model="item.tip"
             placeholder="給個標題"
           />
-          <textarea
+          <div
             class="copy__text copy__text--value"
             type="text"
-            v-model="item.value"
             placeholder="要複製的文字"
-          ></textarea>
+            v-html="item.value"
+          ></div>
           <div class="button__group">
             <button
               v-clipboard:copy="item.value"
@@ -122,9 +125,21 @@ export default {
         tip: "",
       };
     },
+    handleCommand() {
+      console.log("res");
+      let link = prompt("網址");
+      let selectionStart = this.$refs.copyTextInput.selectionStart;
+      let selectionEnd = this.$refs.copyTextInput.selectionEnd;
+      let value = this.$refs.copyTextInput.value;
+      let firstPart = value.substr(0, selectionStart);
+      let linkPart = value.substr(selectionStart, selectionEnd);
+      let lastPart = value.substr(selectionEnd, value.length);
+      this.copyForm.value = `${firstPart}<a href="${link}">${linkPart}</a>${lastPart}`;
+    },
   },
   mounted() {
     this.handleRestore();
+    global.vuecp = this;
   },
   components: {
     draggable,
