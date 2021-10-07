@@ -110,12 +110,12 @@ export default {
       this.copyList.splice(index, 1);
     },
     addItem() {
-      let { value, tip } = this.copyForm
+      let { value, tip } = this.copyForm;
       const saveItem = {
         tip,
         value,
         timestamp: Date.parse(new Date()),
-      }
+      };
       this.copyList.unshift(saveItem);
       this.copyForm = {
         value: "",
