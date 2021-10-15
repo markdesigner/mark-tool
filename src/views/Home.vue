@@ -125,6 +125,9 @@ export default {
   },
   mounted() {
     this.handleRestore();
+    window.onbeforeunload = () => {
+      return true;
+    };
   },
   components: {
     draggable,
