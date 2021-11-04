@@ -125,9 +125,10 @@ export default {
   },
   mounted() {
     this.handleRestore();
-    window.onbeforeunload = () => {
-      return true;
-    };
+    // 讓視窗關閉時跳警告視窗
+    // window.onbeforeunload = () => {
+    //   return true;
+    // };
   },
   components: {
     draggable,
