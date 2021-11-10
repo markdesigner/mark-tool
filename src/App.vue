@@ -1,6 +1,11 @@
 <template>
   <div id="app">
-    <router-link to="ComSitTool">ComSitTool</router-link>
+    <div class="link">
+      <router-link to="ComSitTool">ComSitTool</router-link>
+    </div>
+    <div class="link">
+      <router-link to="ChatTogether">Chat Together</router-link>
+    </div>
     <router-view />
   </div>
 </template>
