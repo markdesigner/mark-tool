@@ -1,9 +1,28 @@
 <template>
   <div id="app">
-    <router-link to="ComSitTool">ComSitTool</router-link>
-    <router-view />
+    <AppHeader :headerList="headerList" />
+    <div class="appContent">
+      <router-view />
+    </div>
   </div>
 </template>
+
+<script>
+import AppHeader from "@/components/AppHeader";
+import HEADERLIST from "@/constants/headerList";
+
+export default {
+  name: "App",
+  components: {
+    AppHeader,
+  },
+  data() {
+    return {
+      headerList: HEADERLIST,
+    };
+  },
+};
+</script>
 
 <style lang="scss">
 @import url(https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap);
