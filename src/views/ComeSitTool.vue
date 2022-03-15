@@ -102,18 +102,20 @@ export default {
     },
     generateWeekDay(datetime) {
       const date = new Date(datetime);
+      console.log(datetime, "dateime");
+      console.log(date);
       const day = date.getDay();
       return this.mappingDayToChineseDay(day);
     },
     mappingDayToChineseDay(day) {
       const mappingDict = [
+        "週日",
         "週一",
         "週二",
         "週三",
         "週四",
         "週五",
         "週六",
-        "週日",
       ];
       return mappingDict[day];
     },
