@@ -12,19 +12,34 @@
         v-model="bookingDate"
         type="date"
         placeholder="日期"
+        @change="setWeekDay"
       />
       <input
         class="CopyTool__input CopyTool__input--bookingTime"
-        v-model="bookingStartTime"
-        type="time"
-        placeholder="開始時間"
-      />
-      <input
-        class="CopyTool__input CopyTool__input--bookingTime"
-        v-model="bookingEndTime"
-        type="time"
-        placeholder="結束時間"
-      />
+        v-model="isCustomizeTime"
+        type="checkbox"
+      />是否為客製化時間
+      <div class="customizeTime-container">
+        <input
+          class="CopyTool__input CopyTool__input--bookingTime"
+          v-model="bookingStartTime"
+          type="time"
+          placeholder="開始時間"
+        />
+        <input
+          class="CopyTool__input CopyTool__input--bookingTime"
+          v-model="bookingEndTime"
+          type="time"
+          placeholder="結束時間"
+        />
+      </div>
+      <div class="periodSelect-container">
+        <select v-model="period">
+          <option value="whole">整天</option>
+          <option value="morning">上午場</option>
+          <option value="evening">下午場</option>
+        </select>
+      </div>
       <input
         class="CopyTool__input CopyTool__input--lockPassword"
         v-model="lockPassword"
@@ -57,32 +72,64 @@ export default {
   data() {
     return {
       guestName: "",
-      bookingDate: "",
+      bookingDate: ``,
       bookingStartTime: "",
       bookingEndTime: "",
-      bookingDay: "週三",
+      bookingDay: "",
       lockPassword: "",
       dialogue: "",
+      isCustomizeTime: false,
+      period: "whole",
     };
   },
-  watch: {},
+  watch: {
+    period: {
+      handler() {
+        this.setBookingTime();
+      },
+      immediate: true,
+    },
+  },
   methods: {
-    handleProduceText() {
+    setBookingTime() {
+      if (this.period === "whole") {
+        if (this.bookingDay === "週六" || this.bookingDay === "週日") {
+          this.bookingStartTime = "12:00";
+          this.bookingEndTime = "21:00";
+        } else {
+          this.bookingStartTime = "09:00";
+          this.bookingEndTime = "21:00";
+        }
+      } else if (this.period === "morning") {
+        this.bookingStartTime = "09:00";
+        this.bookingEndTime = "14:00";
+      } else {
+        this.bookingStartTime = "15:00";
+        this.bookingEndTime = "21:00";
+      }
+    },
+    setWeekDay() {
       this.bookingDay = this.generateWeekDay(this.bookingDate);
-      let textResult = `早安～${this.guestName}
-我們${this.bookingDate} ${this.bookingDay}有來坐預約
-我們來坐採自助式入場
+      this.setBookingTime();
+    },
+    handleProduceText() {
+      let textResult = `感謝${this.guestName ? "坐友" : ""}${
+        this.guestName
+      }預約～
+我們：${this.bookingDate} ${this.bookingDay} 有來坐預約，採自助式入場
 
 到時紅色大門有個密碼鎖，保護客人使用空間不會有外人入場。
 前來時您的密碼為「${this.lockPassword}#」要記得加#唷！
-密碼時效為${this.bookingDay} ${this.bookingStartTime} - ${this.bookingEndTime}，中途都可自行進出
+密碼時效為${this.bookingDay} ${this.bookingStartTime} - ${
+        this.bookingEndTime
+      }，中途都可自行進出
 
 疫情期間比較不一樣的是我們會在門口放上感應式溫度計及酒精，入場時幫我們掃個QR碼後，量個溫度+手部消毒後再入場
 
 我們的wifi是：
 名稱：comesit
 密碼：comesitspace
-因為地下室訊號較差建議先連上呦😄
+
 
 冷氣和燈光都可以自行開關調整，最後離場時再幫我們都關掉就好。冰箱也可以使用（但冰箱裡的東西沒有提供）。
 另外為保持場地品質來坐一律不能吸菸、喝酒、開伙和砸派呦。
@@ -102,8 +149,6 @@ export default {
     },
     generateWeekDay(datetime) {
       const date = new Date(datetime);
-      console.log(datetime, "dateime");
-      console.log(date);
       const day = date.getDay();
       return this.mappingDayToChineseDay(day);
     },
