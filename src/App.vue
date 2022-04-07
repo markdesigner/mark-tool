@@ -16,6 +16,15 @@ export default {
   components: {
     AppHeader,
   },
+  mounted() {
+    this.initFirebaseInstance();
+    global.vuecp = this;
+  },
+  methods: {
+    initFirebaseInstance() {
+      this.$store.dispatch("setFirebaseInstance");
+    },
+  },
   data() {
     return {
       headerList: HEADERLIST,

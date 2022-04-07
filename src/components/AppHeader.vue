@@ -28,18 +28,18 @@ export default {
       default: () => [],
     },
   },
-  data() {
+data() {
     return {
       routeActiveIndex: 0,
     };
   },
   methods: {
     handleClickHeaderItem(headerItem, headerIndex) {
-      console.log(headerItem.routeName, "headerItem");
+      this.routeActiveIndex = headerIndex;
       if (headerItem.routeName) {
-        this.$router.push({ name: headerItem.routeName });
-        this.routeActiveIndex = headerIndex;
-        // this.$refs.headerItem[headerIndex].classList.add("active");
+        if (this.$router.currentRoute.name !== headerItem.routeName) {
+          this.$router.push({ name: headerItem.routeName });
+        }
       }
     },
   },
