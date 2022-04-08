@@ -9,8 +9,17 @@ import { getDatabase, ref, onValue, set, push, update, child} from "firebase/dat
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-  state: {},
-  mutations: {},
+  state: {
+    isAuthenticated: false,
+  },
+  mutations: {
+    setAuthenticated(state, value){
+      state.isAuthenticated = value
+    },
+  },
+  getters: {
+    isAuthenticated: (state) => state.isAuthenticated,
+  },
   actions: {
     setFirebaseInstance({ commit }) {
       const config = {

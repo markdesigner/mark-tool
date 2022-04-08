@@ -22,7 +22,7 @@ export default {
   },
   methods: {
     initFirebaseInstance() {
-      this.$store.dispatch("setFirebaseInstance");
+      this.$store.dispatch("setFirebaseInstance",);
     },
   },
   data() {

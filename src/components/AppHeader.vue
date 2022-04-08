@@ -3,7 +3,10 @@
     <div class="container">
       <div
         class="headerItem"
-        :class="{ active: routeActiveIndex === headerIndex, headerItem }"
+        :class="{
+          active: headerItem.routeName === activeRouteName,
+          headerItem,
+        }"
         v-for="(headerItem, headerIndex) in headerList"
         :key="headerIndex"
       >
@@ -28,10 +31,15 @@ export default {
       default: () => [],
     },
   },
-data() {
+  data() {
     return {
       routeActiveIndex: 0,
     };
+  },
+  computed: {
+    activeRouteName() {
+      return this.$route.name;
+    },
   },
   methods: {
     handleClickHeaderItem(headerItem, headerIndex) {
