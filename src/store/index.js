@@ -11,11 +11,15 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     isAuthenticated: false,
+    userInfo:null,
   },
   mutations: {
     setAuthenticated(state, value){
       state.isAuthenticated = value
     },
+    setUserInfo(state, value) {
+      state.userInfo = value;
+    }
   },
   getters: {
     isAuthenticated: (state) => state.isAuthenticated,
@@ -59,6 +63,40 @@ export default new Vuex.Store({
 
           // ...
         });
+    },
+    registerEmailAuth({ commit }) {
+
+    },
+    async loginByEmail({ commit }, { email, password }) {
+      console.log(email,password)
+      return await signInWithEmailAndPassword(getAuth(), email, password)
+      .then(async (userCredential) => {
+        console.log(userCredential, '使用者資料')
+        const user = userCredential.user;
+        commit('setUserInfo', user);
+        commit('setAuthenticated', true);
+        localStorage.setItem('uid', JSON.stringify(user.uid))
+        return Promise.resolve()
+      })
+      .catch(() => {
+        return Promise.reject()
+      });
+    },
+    async logoutByEmail({ commit, dispatch }) {
+      return await signOut(getAuth())
+      .then(() => {
+        console.log('成功登出')
+        dispatch('resetAuthInfo')
+        this.router.push({})
+      })
+      .catch((err)=>{
+        console.log(err,'登出錯誤')
+      })
+    },
+    resetAuthInfo({ commit }){
+      commit('setAuthenticated', false);
+      commit('setUserInfo', null);
+      localStorage.removeItem('uid')
     }
   },
   modules: {},

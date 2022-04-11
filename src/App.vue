@@ -18,11 +18,10 @@ export default {
   },
   mounted() {
     this.initFirebaseInstance();
-    global.vuecp = this;
   },
   methods: {
     initFirebaseInstance() {
-      this.$store.dispatch("setFirebaseInstance",);
+      this.$store.dispatch("setFirebaseInstance");
     },
   },
   data() {
