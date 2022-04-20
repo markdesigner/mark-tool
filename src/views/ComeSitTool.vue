@@ -1,57 +1,44 @@
 <template>
   <div class="CopyTool">
-    <div class="CopyTool__container">
-      <input
-        class="CopyTool__input CopyTool__input--guestName"
-        v-model="guestName"
-        type="text"
-        placeholder="人名"
-      />
-      <input
-        class="CopyTool__input CopyTool__input--bookingDate"
-        v-model="bookingDate"
-        type="date"
-        placeholder="日期"
-        @change="setWeekDay"
-      />
-      <input
-        class="CopyTool__input CopyTool__input--bookingTime"
-        v-model="isCustomizeTime"
-        type="checkbox"
-      />是否為客製化時間
-      <div class="customizeTime-container">
-        <input
-          class="CopyTool__input CopyTool__input--bookingTime"
-          v-model="bookingStartTime"
-          type="time"
-          placeholder="開始時間"
-        />
-        <input
-          class="CopyTool__input CopyTool__input--bookingTime"
-          v-model="bookingEndTime"
-          type="time"
-          placeholder="結束時間"
-        />
-      </div>
-      <div class="periodSelect-container">
-        <select v-model="period">
+    <div class="container">
+       <div class="input__item textInput">
+        <div class="textInput__item">
+          <input
+            class="CopyTool__input CopyTool__input--guestName"
+            v-model="guestName"
+            type="text"
+            placeholder="人名"
+          />
+        </div>
+        <div class="textInput__item">
+          <input
+            class="CopyTool__input CopyTool__input--lockPassword"
+            v-model="lockPassword"
+            type="text"
+            placeholder="電子鎖密碼"
+          />
+        </div>
+        <div class="periodSelect-container">
+          <select v-model="period">
           <option value="whole">整天</option>
           <option value="morning">上午場</option>
           <option value="evening">下午場</option>
         </select>
+        </div>
       </div>
-      <input
-        class="CopyTool__input CopyTool__input--lockPassword"
-        v-model="lockPassword"
-        type="text"
-        placeholder="電子鎖密碼"
-      />
-      <span
-        >{{ guestName }} {{ bookingDate }} {{ bookingStartTime }}
+      <div class="input__item">
+        <v-date-picker v-model="bookingDate" />
+      </div>
+      <div class="input__item">
+         <v-date-picker v-model="bookingTime" mode="time" isRange is24hr/>
+      </div>
+      <!-- <span
+        >{{ guestName }} {{ bookingStartTime }}
         {{ bookingEndTime }} {{ lockPassword }}</span
-      >
-      <textarea class="CopyTool__textBlock" v-model="dialogue"></textarea>
+      > -->
     </div>
+          <textarea class="CopyTool__textBlock" v-model="dialogue"></textarea>
+
     <div class="CopyTool__ProduceButton">
       <button @click="handleProduceText">一鍵生成</button>
     </div>
@@ -67,20 +54,27 @@
 </template>
 
 <script>
+import dayJs from 'dayjs';
+import 'dayjs/locale/zh-tw';
 export default {
   name: "CopyTool",
   data() {
     return {
       guestName: "",
-      bookingDate: ``,
       bookingStartTime: "",
       bookingEndTime: "",
-      bookingDay: "",
+      bookingDate: new Date(),
+      bookingTime: "",
       lockPassword: "",
       dialogue: "",
       isCustomizeTime: false,
       period: "whole",
+      days: [],
     };
+  },
+  created() {
+    dayJs.locale('zh-tw');
+    global.vuecp = this;
   },
   watch: {
     period: {
@@ -89,13 +83,23 @@ export default {
       },
       immediate: true,
     },
+    bookingDate(bookingDate) {
+      this.bookingTime = {
+        start: bookingDate,
+        end: bookingDate,
+      }
+    }
   },
   methods: {
+    onDayClick(day){
+      console.log('onDayClick', day)
+    },
     setBookingTime() {
       if (this.period === "whole") {
-        if (this.bookingDay === "週六" || this.bookingDay === "週日") {
-          this.bookingStartTime = "12:00";
-          this.bookingEndTime = "21:00";
+        if (dayJs(this.bookingDate).format('d') === '6' || this.bookingDay === '0') {
+          this.bookingTime.start = dayJs(dayJs(this.bookingDate).format('YYYY-MM-DDT12:00:00')).toDate();
+          this.bookingTime.end =  dayJs(dayJs(this.bookingDate).format('YYYY-MM-DDT21:00:00')).toDate();
+          console.log('設定中')
         } else {
           this.bookingStartTime = "09:00";
           this.bookingEndTime = "21:00";
@@ -108,20 +112,16 @@ export default {
         this.bookingEndTime = "21:00";
       }
     },
-    setWeekDay() {
-      this.bookingDay = this.generateWeekDay(this.bookingDate);
-      this.setBookingTime();
-    },
     handleProduceText() {
       let textResult = `感謝${this.guestName ? "坐友" : ""}${
         this.guestName
       }預約～
-我們：${this.bookingDate} ${this.bookingDay} 有來坐預約，採自助式入場
+我們：${this.arrangeBookingDate} 有來坐預約，採自助式入場
 
 到時紅色大門有個密碼鎖，保護客人使用空間不會有外人入場。
 前來時您的密碼為「${this.lockPassword}#」要記得加#唷！
-密碼時效為${this.bookingDay} ${this.bookingStartTime} - ${
-        this.bookingEndTime
+密碼時效為 ${this.arrangeStartTime} - ${
+        this.arrangeEndTime
       }，中途都可自行進出
 
 疫情期間比較不一樣的是我們會在門口放上感應式溫度計及酒精，入場時幫我們掃個QR碼後，量個溫度+手部消毒後再入場
@@ -147,26 +147,20 @@ export default {
     handleCopySuccess() {
       alert("複製成功");
     },
-    generateWeekDay(datetime) {
-      const date = new Date(datetime);
-      const day = date.getDay();
-      return this.mappingDayToChineseDay(day);
-    },
-    mappingDayToChineseDay(day) {
-      const mappingDict = [
-        "週日",
-        "週一",
-        "週二",
-        "週三",
-        "週四",
-        "週五",
-        "週六",
-      ];
-      return mappingDict[day];
-    },
   },
-  computed: {},
-  components: {},
+  computed: {
+    arrangeBookingDate() {
+      return dayJs(this.bookingDate).format('YYYY/MM/DD dddd')
+    },
+    arrangeStartTime() {
+      return dayJs(this.bookingTime.start).format('HH:mm')
+    },
+    arrangeEndTime() {
+      return dayJs(this.bookingTime.end).format('HH:mm')
+    }
+  },
+  components: {
+  },
 };
 </script>
 
@@ -176,10 +170,14 @@ export default {
   width: 90vw;
   height: 100vh;
   margin: 0 auto;
-  &__container {
+  .container {
+    display: flex;
+    justify-content: center;
+    .input__item {
+
+    }
   }
-  &__input {
-  }
+
   &__textBlock {
     width: 100%;
     height: 400px;
