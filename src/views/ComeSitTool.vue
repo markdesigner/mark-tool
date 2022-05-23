@@ -1,7 +1,7 @@
 <template>
   <div class="CopyTool">
     <div class="container">
-       <div class="input__item textInput">
+      <div class="input__item textInput">
         <div class="textInput__item">
           <input
             class="CopyTool__input CopyTool__input--guestName"
@@ -20,24 +20,31 @@
         </div>
         <div class="periodSelect-container">
           <select v-model="period">
-          <option value="whole">整天</option>
-          <option value="morning">上午場</option>
-          <option value="evening">下午場</option>
-        </select>
+            <option value="whole">整天</option>
+            <option value="morning">上午場</option>
+            <option value="evening">下午場</option>
+          </select>
         </div>
       </div>
       <div class="input__item">
         <v-date-picker v-model="bookingDate" />
       </div>
       <div class="input__item">
-         <v-date-picker v-model="bookingTime" mode="time" isRange is24hr/>
+        <v-date-picker
+          v-model="bookingTime"
+          mode="time"
+          isRange
+          is24hr
+          :validHours="validHoursRange"
+          :minute-increment="60"
+        />
       </div>
       <!-- <span
         >{{ guestName }} {{ bookingStartTime }}
         {{ bookingEndTime }} {{ lockPassword }}</span
       > -->
     </div>
-          <textarea class="CopyTool__textBlock" v-model="dialogue"></textarea>
+    <textarea class="CopyTool__textBlock" v-model="dialogue"></textarea>
 
     <div class="CopyTool__ProduceButton">
       <button @click="handleProduceText">一鍵生成</button>
@@ -54,8 +61,8 @@
 </template>
 
 <script>
-import dayJs from 'dayjs';
-import 'dayjs/locale/zh-tw';
+import dayJs from "dayjs";
+import "dayjs/locale/zh-tw";
 export default {
   name: "CopyTool",
   data() {
@@ -64,7 +71,10 @@ export default {
       bookingStartTime: "",
       bookingEndTime: "",
       bookingDate: new Date(),
-      bookingTime: "",
+      bookingTime: {
+        start: dayJs(new Date()).format("YYYY-MM-DDT12:00:00"),
+        end: dayJs(new Date()).format("YYYY-MM-DDT21:00:00"),
+      },
       lockPassword: "",
       dialogue: "",
       isCustomizeTime: false,
@@ -73,33 +83,34 @@ export default {
     };
   },
   created() {
-    dayJs.locale('zh-tw');
+    dayJs.locale("zh-tw");
     global.vuecp = this;
   },
   watch: {
-    period: {
-      handler() {
-        this.setBookingTime();
-      },
-      immediate: true,
-    },
     bookingDate(bookingDate) {
       this.bookingTime = {
-        start: bookingDate,
-        end: bookingDate,
-      }
-    }
+        start: dayJs(bookingDate).format("YYYY-MM-DDT12:00:00"),
+        end: dayJs(bookingDate).format("YYYY-MM-DDT21:00:00"),
+      };
+    },
   },
   methods: {
-    onDayClick(day){
-      console.log('onDayClick', day)
+    onDayClick(day) {
+      console.log("onDayClick", day);
     },
     setBookingTime() {
       if (this.period === "whole") {
-        if (dayJs(this.bookingDate).format('d') === '6' || this.bookingDay === '0') {
-          this.bookingTime.start = dayJs(dayJs(this.bookingDate).format('YYYY-MM-DDT12:00:00')).toDate();
-          this.bookingTime.end =  dayJs(dayJs(this.bookingDate).format('YYYY-MM-DDT21:00:00')).toDate();
-          console.log('設定中')
+        if (
+          dayJs(this.bookingDate).format("d") === "6" ||
+          this.bookingDay === "0"
+        ) {
+          this.bookingTime.start = dayJs(
+            dayJs(this.bookingDate).format("YYYY-MM-DDT12:00:00")
+          ).toDate();
+          this.bookingTime.end = dayJs(
+            dayJs(this.bookingDate).format("YYYY-MM-DDT21:00:00")
+          ).toDate();
+          console.log("設定中");
         } else {
           this.bookingStartTime = "09:00";
           this.bookingEndTime = "21:00";
@@ -113,16 +124,14 @@ export default {
       }
     },
     handleProduceText() {
-      let textResult = `感謝${this.guestName ? "坐友" : ""}${
-        this.guestName
-      }預約～
+      let textResult = `這邊先給您入場資訊與密碼呦～
+
+感謝${this.guestName ? "坐友" : ""}${this.guestName}預約～
 我們：${this.arrangeBookingDate} 有來坐預約，採自助式入場
 
 到時紅色大門有個密碼鎖，保護客人使用空間不會有外人入場。
 前來時您的密碼為「${this.lockPassword}#」要記得加#唷！
-密碼時效為 ${this.arrangeStartTime} - ${
-        this.arrangeEndTime
-      }，中途都可自行進出
+密碼時效為 ${this.arrangeStartTime} - ${this.arrangeEndTime}，中途都可自行進出
 
 疫情期間我們有在門口放上感應式溫度計及酒精，入場時幫我們量個溫度+手部消毒後再入場
 
@@ -150,17 +159,28 @@ export default {
   },
   computed: {
     arrangeBookingDate() {
-      return dayJs(this.bookingDate).format('YYYY/MM/DD dddd')
+      return dayJs(this.bookingDate).format("YYYY/MM/DD dddd");
     },
     arrangeStartTime() {
-      return dayJs(this.bookingTime.start).format('HH:mm')
+      return dayJs(this.bookingTime.start).format("HH:mm");
     },
     arrangeEndTime() {
-      return dayJs(this.bookingTime.end).format('HH:mm')
-    }
+      return dayJs(this.bookingTime.end).format("HH:mm");
+    },
+    validHoursRange() {
+      if (this.bookingDate.getDay() !== 6 && this.bookingDate.getDay() !== 0) {
+        return {
+          min: 9,
+          max: 21,
+        };
+      }
+      return {
+        min: 12,
+        max: 21,
+      };
+    },
   },
-  components: {
-  },
+  components: {},
 };
 </script>
 
@@ -174,7 +194,6 @@ export default {
     display: flex;
     justify-content: center;
     .input__item {
-
     }
   }
 
