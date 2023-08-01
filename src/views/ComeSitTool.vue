@@ -47,15 +47,7 @@
     <textarea class="CopyTool__textBlock" v-model="dialogue"></textarea>
 
     <div class="CopyTool__ProduceButton">
-      <button @click="handleProduceText">一鍵生成</button>
-    </div>
-    <div class="CopyTool__CopyButton">
-      <button
-        v-clipboard:copy="dialogue"
-        v-clipboard:success="handleCopySuccess"
-      >
-        一鍵複製
-      </button>
+      <button @click="handleGenerateAndCopy">一鍵生成與複製</button>
     </div>
   </div>
 </template>
@@ -123,6 +115,15 @@ export default {
         this.bookingEndTime = "21:00";
       }
     },
+    handleGenerateAndCopy() {
+      this.handleProduceText();
+      this.copy();
+    },
+    async copy() {
+      await this.$copyText(this.dialogue).catch(() => {
+        throw new Error("copy error");
+      });
+    },
     handleProduceText() {
       let textResult = `這邊先給您入場資訊與密碼呦～
 
@@ -133,7 +134,6 @@ export default {
 前來時您的密碼為「${this.lockPassword}#」要記得加#唷！
 密碼時效為 ${this.arrangeStartTime} - ${this.arrangeEndTime}，中途都可自行進出
 
-疫情期間我們有在門口放上感應式溫度計及酒精，入場時幫我們量個溫度+手部消毒後再入場
 
 我們的wifi是：
 名稱：comesit
@@ -149,7 +149,8 @@ export default {
 離場前再麻煩幫忙把使用的垃圾、回收分類在桶子內！
 
 停車資訊：
-騎機車的朋友們可以直接停來坐門口空位處，開車的朋友可停附近貴和停車場
+騎機車的朋友們可以直接停來坐招牌前方與正門口，並請勿鎖龍頭。
+開車的朋友可停附近貴和停車場呦
 （https://goo.gl/maps/N3zEHZVsP1JsHGNQ7)
 
 若到現場有任何狀況或問題，都歡迎隨時在這告知我們，我們會立馬回覆處理唷！
@@ -157,8 +158,8 @@ export default {
 `;
       this.dialogue = textResult;
     },
-    handleCopySuccess() {
-      alert("複製成功");
+    handleCopyError() {
+      alert("複製失敗");
     },
   },
   computed: {
