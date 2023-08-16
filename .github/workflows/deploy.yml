@@ -1,0 +1,30 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: 14
+
+    - name: Install dependencies
+      run: yarn install
+
+    - name: Build and deploy
+      run: |
+        git config --global user.name "mark.chang"
+        git config --global user.email "weisheng1202@example.com"
+        git checkout master
+        git merge --ff-only ${{ github.ref }}
+        yarn deploy
