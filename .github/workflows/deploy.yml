@@ -27,4 +27,5 @@ jobs:
         git config --global user.email "weisheng1202@example.com"
         git checkout master
         git merge --ff-only ${{ github.ref }}
+        yarn build
         yarn deploy
