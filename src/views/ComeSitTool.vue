@@ -20,7 +20,7 @@
         </div>
         <div class="periodSelect-container">
           <select v-model="period">
-            <option value="whole">整天場</option>
+            <option value="whole">整天場選擇</option>
             <option value="morning">上午場</option>
             <option value="evening">下午場</option>
           </select>
