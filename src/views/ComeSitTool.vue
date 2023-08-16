@@ -170,7 +170,7 @@ export default {
       return dayJs(this.bookingTime.start).format("HH:mm");
     },
     arrangeEndTime() {
-      return dayJs(this.bookingTime.end).format("HH:mm");
+      return dayJs(this.bookingTime.end).format("HH:mm")
     },
     validHoursRange() {
       if (this.bookingDate.getDay() !== 6 && this.bookingDate.getDay() !== 0) {
