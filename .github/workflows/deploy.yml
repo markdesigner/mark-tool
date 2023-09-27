@@ -21,12 +21,14 @@ jobs:
     - name: Install dependencies
       run: yarn install
 
-    - name: Build and deploy
-      run: |
-        git config --global user.name "mark.chang"
-        git config --global user.email "weisheng1202@example.com"
-        git checkout master
-        git remote set-url https://github.com/markdesigner/mark-tool.git
-        yarn deploy
+    - name: Build
+      run: yarn build
+      
+    - name: 部署到githubpages
+      uses: peaceiris/actions-gh-pages@v4
+      with:
+        personal_token: ${{ secrets.GITHUB_TOKEN }}
+        external_repository: markdesigner/markdesigner.github.io/ # 更改为您的GitHub Pages 存储库
+
 
         
