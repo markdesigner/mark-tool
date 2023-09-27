@@ -150,7 +150,7 @@ export default {
 
 停車資訊：
 騎機車的朋友們可以直接停來坐招牌前方與正門口，並請勿鎖龍頭。
-開車的朋友可停附近貴和停車場呦
+開車的朋友可停附近貴和停車場(無特約)、和周邊停車格呦!
 （https://goo.gl/maps/N3zEHZVsP1JsHGNQ7)
 
 若到現場有任何狀況或問題，都歡迎隨時在這告知我們，我們會立馬回覆處理唷！
@@ -170,7 +170,7 @@ export default {
       return dayJs(this.bookingTime.start).format("HH:mm");
     },
     arrangeEndTime() {
-      return dayJs(this.bookingTime.end).format("HH:mm")
+      return dayJs(this.bookingTime.end).format("HH:mm");
     },
     validHoursRange() {
       if (this.bookingDate.getDay() !== 6 && this.bookingDate.getDay() !== 0) {
