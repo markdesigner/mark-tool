@@ -3,6 +3,7 @@ import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import ComeSitTool from "../views/ComeSitTool.vue";
 import TestPage from "../views/TestPage.vue";
+import HouseTool from "../views/HouseTool.vue";
 
 Vue.use(VueRouter);
 
@@ -21,6 +22,11 @@ const routes = [
     path: "/TestPage",
     name: "TestPage",
     component: TestPage,
+  },
+  {
+    path: "/HouseTool",
+    name: "HouseTool",
+    component: HouseTool,
   },
 ];
 
