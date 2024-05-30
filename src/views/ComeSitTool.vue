@@ -141,7 +141,7 @@ export default {
 這邊也提供設備的使用教學👉
 
 投影機使用教學：https://youtu.be/7xhJ_T1-SAU
-藍芽音響使用教學：https://youtu.be/OhyRXlig23s
+無線Airplay播放音樂教學: https://youtube.com/shorts/8qHSudYnUII?si=vzmeNdJY4npeST2m
 
 冷氣和燈光都可以自行開關調整，最後離場時再幫我們都關掉就好。冰箱也可以使用（但冰箱裡的東西沒有提供）。
 另外為保持場地品質來坐一律不能吸菸、喝酒、開伙和砸派呦。
