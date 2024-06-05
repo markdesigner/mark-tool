@@ -1,30 +1,41 @@
 <template>
   <div class="TestPage">
-    <h1>Test</h1>
-    <AppTable :headData="headData">
-      <template v-slot:thead="prop">
-        {{ prop.items }}
-        <div>
-          {{ prop.number }}
-        </div>
-      </template>
-    </AppTable>
+    <div class="tool">
+      <h1 class="title">Rem換算</h1>
+      <input type="text" v-model="rem" @input="handleInputChange" />
+      <div class="answer">{{ rem * 16 }}</div>
+    </div>
   </div>
 </template>
 
 <script>
-import AppTable from "@/components/AppTable";
 export default {
   name: "TestPage",
-  components: {
-    AppTable,
-  },
+  components: {},
   data() {
     return {
-      headData: ["name", "age", "gender"],
+      rem: 1,
     };
+  },
+  methods: {
+    handleInputChange() {
+      this.rem = this.rem.replace(/[^0-9.]/g, "");
+    },
   },
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.tool {
+  display: flex;
+  align-items: center;
+  gap: 0 20px;
+  input {
+    font-size: 20px;
+    width: 150px;
+  }
+  .answer {
+    font-size: 30px;
+  }
+}
+</style>
