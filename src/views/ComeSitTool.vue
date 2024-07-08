@@ -144,6 +144,7 @@ export default {
 無線Airplay播放音樂教學: https://youtube.com/shorts/8qHSudYnUII?si=vzmeNdJY4npeST2m
 
 冷氣和燈光都可以自行開關調整，最後離場時再幫我們都關掉就好。冰箱也可以使用（但冰箱裡的東西沒有提供）。
+入場後樓下有來坐專屬鞋櫃，再幫我們直接穿鞋走樓梯下樓即可呦～
 另外為保持場地品質來坐一律不能吸菸、喝酒、開伙和砸派呦。
 離場前再麻煩幫忙把使用的垃圾、回收分類在桶子內。
 使用過的餐具也幫我們集中到白色餐車上。
@@ -173,15 +174,9 @@ export default {
       return dayJs(this.bookingTime.end).format("HH:mm");
     },
     validHoursRange() {
-      if (this.bookingDate.getDay() !== 6 && this.bookingDate.getDay() !== 0) {
-        return {
-          min: 9,
-          max: 21,
-        };
-      }
       return {
-        min: 12,
-        max: 21,
+        min: 8,
+        max: 23,
       };
     },
   },
