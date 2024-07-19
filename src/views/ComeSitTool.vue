@@ -125,36 +125,49 @@ export default {
       });
     },
     handleProduceText() {
-      let textResult = `感謝預約，這邊先給您入場資訊與密碼呦～
+      let textResult = `🪑感謝預約，這邊先給您入場資訊與密碼呦~
 
 我們：${this.arrangeBookingDate} 有來坐預約，採自助式入場
 
-到時紅色大門有個密碼鎖，保護客人使用空間不會有外人入場。
-前來時您的密碼為「${this.lockPassword}#」要記得加#唷！
-密碼時效為 ${this.arrangeStartTime} - ${this.arrangeEndTime}，中途都可自行進出
+🪑入場教學：
 
+  到時紅色大門有個密碼鎖，保護客人使用空間不會有外人入場。
 
-我們的wifi是：
-名稱：comesit
-密碼：comesitspace
+  前來時您的密碼為「${this.lockPassword}#」要記得加#唷！
 
-這邊也提供設備的使用教學👉
+  密碼時效為 ${this.arrangeStartTime} - ${this.arrangeEndTime}，中途都可自行進出
 
-投影機使用教學：https://youtu.be/7xhJ_T1-SAU
-無線Airplay播放音樂教學: https://youtube.com/shorts/8qHSudYnUII?si=vzmeNdJY4npeST2m
+🪑我們的WiFi：
 
-冷氣和燈光都可以自行開關調整，最後離場時再幫我們都關掉就好。冰箱也可以使用（但冰箱裡的東西沒有提供）。
-入場後樓下有來坐專屬鞋櫃，再幫我們直接穿鞋走樓梯下樓即可呦～
-另外為保持場地品質來坐一律不能吸菸、喝酒、開伙和砸派呦。
-離場前再麻煩幫忙把使用的垃圾、回收分類在桶子內。
-使用過的餐具也幫我們集中到白色餐車上。
+  名稱：comesit
+  密碼：comesitspace
 
-停車資訊：
-騎機車的朋友們可以直接停來坐招牌前方與正門口，並請勿鎖龍頭。
-開車的朋友可停附近貴和停車場(無特約)、和周邊停車格呦!
-（https://goo.gl/maps/N3zEHZVsP1JsHGNQ7)
+🪑這邊也提供設備的使用教學
 
-若到現場有任何狀況或問題，都歡迎隨時在這告知我們，我們會立馬回覆處理唷！
+📌投影機使用教學：https://youtu.be/7xhJ_T1-SAU
+
+📌無線Airplay播放音樂教學: https://youtube.com/shorts/8qHSudYnUII?si=vzmeNdJY4npeST2m
+
+🪑入場須知：
+
+  冷氣和燈光都可以自行開關調整，最後離場時再幫我們都關掉就好。冰箱也可以使用（但冰箱裡的東西沒有提供😊）。
+
+  入場後樓下有來坐專屬鞋櫃，再幫我們直接穿鞋走樓梯下樓即可呦～
+
+  另外為保持場地品質，來坐一律不能吸菸、喝酒、開伙和砸派呦。
+
+  離場前再麻煩幫忙把使用的垃圾、回收分類在桶子內。
+
+  使用過的餐具也幫我們集中到白色餐車上。
+
+🪑停車資訊：
+
+  騎機車的朋友們可以直接停來坐招牌前方與正門口，並請勿鎖龍頭。
+
+  開車的朋友可停附近貴和停車場(無特約)、和周邊停車格呦!
+  （https://goo.gl/maps/N3zEHZVsP1JsHGNQ7)
+
+🪑若到現場有任何狀況或問題，都歡迎隨時在這告知我們，我們會立馬回覆處理唷！
 祝您有個愉快的一天❤️
 `;
       this.dialogue = textResult;
