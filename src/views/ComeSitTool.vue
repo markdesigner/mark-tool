@@ -144,7 +144,7 @@ export default {
 
 🪑這邊也提供設備的使用教學
 
-📌投影機使用教學：https://youtu.be/7xhJ_T1-SAU
+📌投影機使用教學：https://youtu.be/s1NzaJ8Ewsg
 
 📌無線Airplay播放音樂教學: https://youtube.com/shorts/8qHSudYnUII?si=vzmeNdJY4npeST2m
 
