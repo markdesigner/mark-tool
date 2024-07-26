@@ -146,7 +146,9 @@ export default {
 
 📌投影機使用教學：https://youtu.be/s1NzaJ8Ewsg
 
-📌無線Airplay播放音樂教學: https://youtube.com/shorts/8qHSudYnUII?si=vzmeNdJY4npeST2m
+📌手機用音響播放音樂教學: https://youtu.be/CiyMo7gzvLQ
+
+📌飛鏢機使用教學：https://youtu.be/qDS5eHW8qmE
 
 🪑入場須知：
 
