@@ -3,7 +3,7 @@
     <div class="container">
       <div
         class="headerItem"
-        :class="{ active: routeActiveIndex === headerIndex, headerItem }"
+        :class="{ active: checkActive(headerItem) }"
         v-for="(headerItem, headerIndex) in headerList"
         :key="headerIndex"
       >
@@ -42,6 +42,9 @@ export default {
         // this.$refs.headerItem[headerIndex].classList.add("active");
       }
     },
+    checkActive(item) {
+      return item.routeName === this.$route.name;
+    } 
   },
 };
 </script>
