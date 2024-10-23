@@ -177,6 +177,8 @@ export default {
 
 📌飛鏢機使用教學：https://youtu.be/qDS5eHW8qmE
 
+📌投影機沒有聲音如何解決： https://youtu.be/o93hvL1qZ2o
+
 🪑入場須知：
 
   冷氣和燈光都可以自行開關調整，最後離場時再幫我們都關掉就好。冰箱也可以使用（但冰箱裡的東西沒有提供😊）。
