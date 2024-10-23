@@ -2,7 +2,7 @@
   <div class="CopyTool">
     <div class="booking-container">
       <div class="people">
-        人數：<input type="number" v-model="peopleNumber" placeholder="人數">
+        人數：<input type="number" v-model="peopleNumber" placeholder="人數" />
       </div>
       <textarea class="copyArea" v-model="bookingText"></textarea>
       <div class="CopyTool__ProduceButton">
@@ -82,7 +82,7 @@ export default {
       period: "whole",
       days: [],
       peopleNumber: 5,
-      bookingText: ''
+      bookingText: "",
     };
   },
   created() {
@@ -135,11 +135,13 @@ export default {
       this.copyBookingText();
     },
     handleBookingText() {
-      this.bookingText =`已經幫您預約囉，那再麻煩三日內幫我匯款${this.peopleNumber * 250}元到以下戶頭後，或是Line 加入來坐好友Line Pay(一卡通money)轉帳給我(https://line.me/ti/p/Cjwh2O1BL6)。
+      this.bookingText = `已經幫您預約囉，那再麻煩三日內幫我匯款${
+        this.peopleNumber * 250
+      }元到以下戶頭後，或是Line 加入來坐好友Line Pay(一卡通money)轉帳給我(https://line.me/ti/p/Cjwh2O1BL6)。
 完成後我會傳送入場資訊與密碼給您。非常感謝
 
 銀行代號 007 （第一銀行）
-帳號40157027386`
+帳號40157027386`;
     },
     async copyBookingText() {
       await this.$copyText(this.bookingText).catch(() => {
@@ -177,7 +179,7 @@ export default {
 
 📌飛鏢機使用教學：https://youtu.be/qDS5eHW8qmE
 
-📌投影機沒有聲音如何解決： https://youtu.be/o93hvL1qZ2o
+📌投影機沒有聲音如何解決：https://youtu.be/o93hvL1qZ2o
 
 🪑入場須知：
 
